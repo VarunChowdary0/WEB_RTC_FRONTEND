@@ -5,7 +5,8 @@ import Peer from 'simple-peer'
 
 const  SocketContext = createContext();
 
-const URL = "http://localhost:5000/"
+//const URL = "http://localhost:5000/"
+const URL = "https://web-rtc-test-learn-1.onrender.com/"
 const socket = io(URL)
 
 const ContextProvider = ({ children }) =>{
