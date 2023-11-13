@@ -4,14 +4,13 @@ import {
   RouterProvider,
                 }   from "react-router-dom";
 import MainPage from './components/MainPage';
+import Home from './components/Home';
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: 
-        <h1 className="text-3xl font-bold ">
-            Hello world!
-        </h1>
+        <Home/>
     },
     {
         path: '/videoCall',

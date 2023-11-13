@@ -26,9 +26,9 @@ const Options = ({children}) => {
       })
     }
     useEffect(()=>{
-      console.log("E",callEnded)
-      console.log("A",callAccepted)
-      console.log((callAccepted&&!callEnded))
+      // console.log("E",callEnded)
+      // console.log("A",callAccepted)
+      // console.log((callAccepted&&!callEnded))
   },[callAccepted,callEnded])
   return (
     <div className=' flex items-center gap-10
@@ -36,11 +36,7 @@ const Options = ({children}) => {
      >
         {  !callAccepted ?
           <>
-                <input className='w-[10vw] p-2 bg-black/0  focus:outline-none
-                border-b-2 border-indigo-500 text-[#dcd6f3]  max-sm:w-[40vw]
-                ' type='text' 
-                value={name} placeholder='Name'
-                 onChange={(e)=>setname(e.target.value)}/>
+                
 
                 <input className='w-[20vw] p-2 bg-black/0  focus:outline-none
                 border-b-2 border-indigo-500 text-[#eae5ff]  max-sm:w-[65vw]

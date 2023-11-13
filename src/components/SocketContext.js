@@ -5,8 +5,8 @@ import Peer from 'simple-peer'
 
 const  SocketContext = createContext();
 
-const URL = "http://localhost:5000/"
-//const URL = "https://web-rtc-test-learn-1.onrender.com/"
+//const URL = "http://localhost:5000/"
+const URL = "https://web-rtc-test-learn-1.onrender.com/"
 const socket = io(URL)
 
 const ContextProvider = ({ children }) =>{
@@ -15,7 +15,7 @@ const ContextProvider = ({ children }) =>{
     const [Me,setMe] = useState("");
     const [call,setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
-    const [name,setname] = useState("")
+    const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
     const MyVideo = useRef();
     const UserVideo = useRef();
