@@ -5,14 +5,10 @@ import Random from './Random'
 const VideoPlayer = () => {
   const {
     callAccepted,
-    MyVideo,
-    UserVideo,
     stream,
     name,
-    callEnded,
     call,
    } = useContext(SocketContext)
-   console.log(MyVideo)
   return (
     <>
         <div className='w-full h-full flex justify-around relative bg-[#272727]'>  

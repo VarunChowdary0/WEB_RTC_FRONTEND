@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SocketContext } from './SocketContext'
 
 const Random = () => {
@@ -7,6 +7,21 @@ const Random = () => {
     useEffect(()=>{
         console.log(All_Onlines)
     },[All_Onlines])
+
+    const [ countDown , setCountDown ] = useState(0);
+    const Counter = () =>{
+        setCountDown(15)
+    }  
+    useEffect(()=>{
+        if(countDown){
+            setTimeout(()=>{
+                setCountDown(countDown-1);
+            },1000)
+            setTimeout(()=>{
+                console.log("TIme up")
+            },15000)
+        }
+    })
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0
         flex items-center justify-center flex-col gap-11
@@ -25,12 +40,17 @@ const Random = () => {
                                     return(
                                         ((Me !== ele) && 
                                             <div
-                                             onClick={()=>CallUser(ele)}
+                                             onClick={()=>{
+                                                if(countDown === 0){
+                                                    CallUser(ele);
+                                                    Counter();
+                                                }
+                                             }
+                                        }
                                                     className 
                                                     =' p-2  bg-[#673ec8] rounded-md
                                                     hover:cursor-pointer'>
-                                                        {/* Random Preson {index+1} */}
-                                                        {ele}
+                                                        Random Preson {index+1}
                                             </div>
                                         )
                                     )
@@ -41,7 +61,21 @@ const Random = () => {
                     <button className=' p-3 bg-fuchsia-700 rounded-md font-thin'>
                             Pick Random
                      </button>
-                    
+
+                    { (countDown !== 0) && (
+                        <>
+                            <div className=' flex  gap-5'>
+                                <p>Waiting for responce</p>
+                            <div className={`${ countDown > 10 ? " text-green-700":
+                                      countDown > 5 ? " text-orange-600" :
+                                      " text-red-800"}
+                                      text-lg
+                                      `
+          }>{countDown}</div>
+                        </div>
+                        
+                        </>
+                    )}
                 </>
             )
         }

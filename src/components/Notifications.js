@@ -8,14 +8,22 @@ const Notifications = () => {
     callAccepted,
     setCall
   }  = useContext(SocketContext)
-  const [countDown , setCount] = useState(10)
+  const [countDown , setCount] = useState()
   useEffect(()=>{
-    if(call.isReceivingCall){
-      setTimeout(()=>{
-        setCount(countDown-1)
-      })
+    if(countDown){
+      if(call.isReceivingCall){
+        setTimeout(()=>{
+          setCount(countDown-1)
+        },1000)
+      }
     }
-},[,call])
+})
+
+useEffect(()=>{
+  if(call.isReceivingCall){
+    setCount(10);
+  }
+},[call])
   const CallDown = () =>{}
   return (
       <>
@@ -38,7 +46,12 @@ const Notifications = () => {
                      167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
               </svg>
             </button>
-            {countDown}
+            <p className={`${ countDown > 6 ? " text-green-700":
+                                      countDown > 3 ? " text-orange-600" :
+                                      " text-red-800"}
+                                      text-lg
+                                      `
+          }>{countDown}</p>
           </div>
         }
       </>

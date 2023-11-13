@@ -18,8 +18,6 @@ const ContextProvider = ({ children }) =>{
     const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
     const [All_Onlines,setOnlines] = useState([]);
-    const MyVideo = useRef();
-    const UserVideo = useRef();
     const connectionRef = useRef();
 
     useEffect(()=>{
@@ -29,6 +27,8 @@ const ContextProvider = ({ children }) =>{
             });
         },[,socket])
     })
+
+
     // To get permissions to access camera and microphone.
     useEffect(()=>{
         // to get my socket id when connected .
@@ -55,16 +55,20 @@ const ContextProvider = ({ children }) =>{
             //recive calls
             socket.on('getCalls', ({ from, name: callerName, signal }) => {
                 setCall({ isReceivingCall: true, from, name: callerName, signal });
-                console.log({ isReceivingCall: true, from, name: callerName, signal })
+                //console.log({ isReceivingCall: true, from, name: callerName, signal })
+                OffCall();
             });
 
             socket.on('ENDCALL',()=>{
                 window.location.reload();
-                UserVideo.current = null;
             })
         },[socket])
         
-    
+    const OffCall=()=>{
+        setTimeout(()=>{
+            setCall({})
+        },10000)
+    }
 
     // To answer an incomming call
     const AnswerCall = () =>{
@@ -157,8 +161,6 @@ const ContextProvider = ({ children }) =>{
         <SocketContext.Provider value={{
             call,
             callAccepted,
-            MyVideo,
-            UserVideo,
             stream,
             name,
             setname,
@@ -168,7 +170,8 @@ const ContextProvider = ({ children }) =>{
             EndCall,
             AnswerCall,
             All_Onlines,
-            setOnlines
+            setOnlines,
+            setCall
             
         }}>
             {children}
