@@ -5,12 +5,13 @@ import Peer from 'simple-peer'
 
 const  SocketContext = createContext();
 
-//const URL = "http://localhost:5000/"
-const URL = "https://web-rtc-test-learn-1.onrender.com/"
+const URL = "http://localhost:5000/"
+//const URL = "https://web-rtc-test-learn-1.onrender.com/"
 const socket = io(URL)
 
 const ContextProvider = ({ children }) =>{
     const [stream,setStream] = useState(null);
+    const [meStream,setmeStream] = useState(null)
     const [Me,setMe] = useState("");
     const [call,setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
@@ -28,7 +29,10 @@ const ContextProvider = ({ children }) =>{
         })
             .then((currentStream) => {
                 setStream(currentStream);
-                MyVideo.current.srcObject = currentStream;
+                setmeStream(currentStream)
+                // MyVideo.current.srcObject = currentStream;
+            const remoteVideo = document.getElementById('myVideoPre');
+            remoteVideo.srcObject = currentStream;
             })
             .catch((err)=>{
                 console.log(err)
@@ -46,7 +50,8 @@ const ContextProvider = ({ children }) =>{
                 console.log({ isReceivingCall: true, from, name: callerName, signal })
             });
 
-            socket.on('callended',()=>{
+            socket.on('ENDCALL',()=>{
+                window.location.reload();
                 UserVideo.current = null;
             })
         },[socket])
@@ -60,6 +65,10 @@ const ContextProvider = ({ children }) =>{
             stream   
         });
 
+        peer.on('connect',()=>{
+            console.log("peer connected")
+        })
+
         peer.on('signal',(data) => {
             socket.emit('AnswerCall',{ 
                 signal: data,
@@ -67,15 +76,22 @@ const ContextProvider = ({ children }) =>{
             })
         });
 
-        peer.on('stream',(currentStream) => {
-            UserVideo.current.srcObject = currentStream;
-            console.log(currentStream)
-        });
+        peer.on('stream', remoteStream => {
+            // Display the remote stream in a video element
+            // Note: This assumes you have a video element with the ref "remoteVideo" in your component
+            const remoteVideo = document.getElementById('remoteVideo');
+            if (remoteVideo) {
+              remoteVideo.srcObject = remoteStream;
+            }
+          });
 
         peer.signal(call.signal)
 
         connectionRef.current = peer;
         setCallEnded(false)
+        
+        const remoteVideo = document.getElementById('myVideo');
+            remoteVideo.srcObject = meStream;
     };
 
     
@@ -88,6 +104,9 @@ const ContextProvider = ({ children }) =>{
             stream   // to pass the signal info from {CallUser}
         });
 
+        peer.on('connect',()=>{
+            console.log("peer connected")
+        })
         peer.on('signal',(data) => {
             socket.emit('CallUser',{ 
                 userToCall : id,
@@ -97,9 +116,12 @@ const ContextProvider = ({ children }) =>{
             })
         });
 
-        peer.on('stream',(currentStream) => {
-            UserVideo.current.srcObject = currentStream;
-        });
+        peer.on('stream',(remoteStream) => {
+            const remoteVideo = document.getElementById('remoteVideo');
+            if (remoteVideo) {
+              remoteVideo.srcObject = remoteStream;
+            }
+          });
 
         socket.on('callAccepted',(signal)=>{
             console.log(signal)
@@ -107,13 +129,15 @@ const ContextProvider = ({ children }) =>{
             peer.signal(signal);
         });
         connectionRef.current = peer;
+
+        const remoteVideo = document.getElementById('myVideo');
+            remoteVideo.srcObject = meStream;
     };
 
     // To end current call
     const EndCall = () =>{
-        socket.broadcast.emit('callended')
         setCallEnded(true);
-        connectionRef.current.destroy()
+        socket.emit("ENDCALL",(call.from))
         window.location.reload();
     }
 

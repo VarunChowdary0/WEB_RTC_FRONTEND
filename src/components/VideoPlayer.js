@@ -16,11 +16,10 @@ const VideoPlayer = () => {
     <>
         <div className='w-full h-full flex justify-around relative bg-[#272727]'>  
         {
-            (callAccepted && !callEnded)
-            &&
-            <>
+
+            <div className={`${callAccepted ? 'opacity-1 scale-100': ' opacity-0 scale-0'}`}>
              <div className=' flex items-center flex-col  justify-center bg-[#272727] w-full'>
-                <video playsInline ref={UserVideo} autoPlay  className='w-fit rounded-md bg-[#3e3e3e]' />
+                <video playsInline id="remoteVideo" autoPlay  className='w-fit rounded-md bg-[#3e3e3e]' />
                 <p>{call.name || 'Other'}</p>
             </div>
             <div className=' absolute bottom-8 right-5 
@@ -28,16 +27,16 @@ const VideoPlayer = () => {
                         max-sm:h-[10vh] max-sm:w-[40vw] max-sm:bottom-[15vh]
                         flex justify-center items-center rounded-md flex-col
                         '>
-                    <video playsInline ref={MyVideo} autoPlay muted className='w-fit bg-yello-500 
+                    <video playsInline id='myVideo' autoPlay muted className='w-fit bg-yello-500 
                                                     rounded-md  hover:scale-105 transition-all' />
                     <p className=' text-center'>{name || 'Me'}</p>
             </div>
-            </>
+            </div>
         }
         {
             (stream && !callAccepted) && (
-                <div className=' flex-col gap-7 flex justify-center items-center'>
-                    <video playsInline ref={MyVideo}  autoPlay muted className='w-fit bg-yellow-500 
+                <div className='fixed top-[50%] bottom-[50%] flex-col gap-7 flex justify-center items-center'>
+                    <video playsInline id='myVideoPre' autoPlay muted className='w-fit bg-yellow-500 
                                                     rounded-md' />
                     <p className=' text-center'>{name || 'Me'}</p>
                 </div>
