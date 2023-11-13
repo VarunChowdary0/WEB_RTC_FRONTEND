@@ -21,12 +21,15 @@ const ContextProvider = ({ children }) =>{
     const connectionRef = useRef();
 
     useEffect(()=>{
+        socket.emit('newly_joined');
         socket.on('newly_joined',(data)=>{
+            console.log("Fghv: ",data)
             setOnlines(data)
-        socket.on("disconnect", () => {
-            });
-        },[,socket])
-    })
+        })
+    socket.on('disconnect',()=>{
+            console.log("disconnected: ",socket.id);
+        })
+    },[socket])
 
 
     // To get permissions to access camera and microphone.

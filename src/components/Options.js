@@ -52,7 +52,8 @@ const Options = ({children}) => {
                   :
                     <>
                       <button onClick={()=>CallUser(idToCall)} className=' w-5'>
-                     { (idToCall.trim() !== "") &&
+                     { ((idToCall.trim() !== "")&&(idToCall !== Me
+                     )) &&
                        <svg className='fill-green-500 scale-125' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                        <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0
                         46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 

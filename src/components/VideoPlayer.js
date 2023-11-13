@@ -67,8 +67,8 @@ const VideoPlayer = () => {
         <Random/>
         {
             !stream && (
-                <div className=' flex justify-center items-center flex-col'>
-                    <p className=' text-3xl'>Please allow permissions</p>
+                <div className=' fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center flex-col'>
+                    <p className='text-3xl'>Please allow permissions</p>
                 </div>
             )
         }

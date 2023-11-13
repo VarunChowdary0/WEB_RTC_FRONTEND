@@ -4,10 +4,6 @@ import { SocketContext } from './SocketContext'
 const Random = () => {
     
     const {callAccepted,stream,All_Onlines,Me,CallUser} = useContext(SocketContext);
-    useEffect(()=>{
-        console.log(All_Onlines)
-    },[All_Onlines])
-
     const [ countDown , setCountDown ] = useState(0);
     const Counter = () =>{
         setCountDown(15)
@@ -22,6 +18,26 @@ const Random = () => {
             },15000)
         }
     })
+
+    const [load,setLoader] = useState(false)
+        const CallSomeOneRandom = () =>{
+        const Length = All_Onlines.length;
+        const ToCall = Math.floor(Math.random() * Length);
+        setLoader(true)
+        setTimeout(()=>{
+            if (All_Onlines[ToCall] !== Me){
+                OffLoad();
+                CallUser(All_Onlines[ToCall])
+                Counter();
+            }
+            else{
+                CallSomeOneRandom();
+            }
+        },500)
+    }
+    const OffLoad = () =>{
+        setLoader(false)
+    }
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0
         flex items-center justify-center flex-col gap-11
@@ -58,7 +74,8 @@ const Random = () => {
                             }
                         </div>
                     </div>
-                    <button className=' p-3 bg-fuchsia-700 rounded-md font-thin'>
+                    <button onClick={CallSomeOneRandom}
+                    className=' p-3 bg-fuchsia-700 rounded-md font-thin'>
                             Pick Random
                      </button>
 
@@ -77,6 +94,18 @@ const Random = () => {
                         </>
                     )}
                 </>
+            )
+        }
+        {
+            load &&
+            (
+                <div className=' bg-black/70 
+                fixed top-0 bottom-0  left-0 
+                right-0 flex items-center justify-center
+                '
+                >
+                    Picking someone for you ....
+                </div>
             )
         }
     </div>
