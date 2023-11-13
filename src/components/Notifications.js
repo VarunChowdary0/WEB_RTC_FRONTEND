@@ -1,19 +1,29 @@
-import React , { useContext, useEffect} from 'react'
+import React , { useContext, useEffect, useState} from 'react'
 import { SocketContext  } from './SocketContext'
 
 const Notifications = () => {
   const { 
      AnswerCall,
     call,
-    callAccepted
+    callAccepted,
   }  = useContext(SocketContext)
-  console.log("Rendering Notifications...");
-  console.log("call:", call);
-  console.log("callAccepted:", callAccepted);
+  const [countDown , setCount] = useState(10)
+  useEffect(()=>{
+    while(countDown!=0){
+      if(call.isReceivingCall){
+        setTimeout(()=>{
+          setCount(countDown-1)
+        },1000)
+      }
+    }
+},[,call])
+  const CallDown = () =>{}
   return (
       <>
         { (call.isReceivingCall && !callAccepted) &&
+        
           <div className=' flex gap-4'>
+              {CallDown()}
             <p>{`${call.name} is calling `}</p>
             <button onClick={AnswerCall}
              className=' scale-[1.7] '>
@@ -29,9 +39,9 @@ const Notifications = () => {
                      167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
               </svg>
             </button>
+            {countDown}
           </div>
         }
-        {console.log(call)}
       </>
   )
 }

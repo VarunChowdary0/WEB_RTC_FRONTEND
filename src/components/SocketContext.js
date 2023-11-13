@@ -5,8 +5,8 @@ import Peer from 'simple-peer'
 
 const  SocketContext = createContext();
 
-//const URL = "http://localhost:5000/"
-const URL = "https://web-rtc-test-learn-1.onrender.com/"
+const URL = "http://localhost:5000/"
+//const URL = "https://web-rtc-test-learn-1.onrender.com/"
 const socket = io(URL)
 
 const ContextProvider = ({ children }) =>{
@@ -17,9 +17,18 @@ const ContextProvider = ({ children }) =>{
     const [callAccepted, setCallAccepted] = useState(false);
     const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
+    const [All_Onlines,setOnlines] = useState([]);
     const MyVideo = useRef();
     const UserVideo = useRef();
     const connectionRef = useRef();
+
+    useEffect(()=>{
+        socket.on('newly_joined',(data)=>{
+            setOnlines(data)
+        socket.on("disconnect", () => {
+            });
+        },[,socket])
+    })
     // To get permissions to access camera and microphone.
     useEffect(()=>{
         // to get my socket id when connected .
@@ -30,9 +39,8 @@ const ContextProvider = ({ children }) =>{
             .then((currentStream) => {
                 setStream(currentStream);
                 setmeStream(currentStream)
-                // MyVideo.current.srcObject = currentStream;
-            const remoteVideo = document.getElementById('myVideoPre');
-            remoteVideo.srcObject = currentStream;
+                const remoteVideo = document.getElementById('myVideoPre');
+                remoteVideo.srcObject = currentStream;
             })
             .catch((err)=>{
                 console.log(err)
@@ -56,6 +64,8 @@ const ContextProvider = ({ children }) =>{
             })
         },[socket])
         
+    
+
     // To answer an incomming call
     const AnswerCall = () =>{
         setCallAccepted(true);
@@ -157,6 +167,8 @@ const ContextProvider = ({ children }) =>{
             CallUser,
             EndCall,
             AnswerCall,
+            All_Onlines,
+            setOnlines
             
         }}>
             {children}

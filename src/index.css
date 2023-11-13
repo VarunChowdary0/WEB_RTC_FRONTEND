@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scrollable-container {
+    overflow: auto;    /* Enable scrolling */
+    scrollbar-width: 5px; /* Hide the scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide the scrollbar in IE/Edge */
+  }
+  .scrollable-container::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+  .scrollable-container::-webkit-scrollbar-track{
+    background: #f0f0f000;
+  }
+  .scrollable-container::-webkit-scrollbar-thumb {
+    height: 10px;
+    border-radius: 10px;
+    background-color: rgba(24, 20, 28, 0.241) /* Hide the scrollbar thumb */
+  }
