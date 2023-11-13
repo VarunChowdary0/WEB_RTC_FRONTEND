@@ -17,7 +17,7 @@ const VideoPlayer = () => {
         <div className='w-full h-full flex justify-around relative bg-[#272727]'>  
         {
 
-            <div className={`${callAccepted ? 'opacity-1 scale-100': ' opacity-0 scale-0'}`}>
+            <div className={`${callAccepted ? 'opacity-1 scale-100': ' opacity-0 scale-0'} w-full h-full`}>
              <div className=' flex items-center flex-col  justify-center bg-[#272727] w-full'>
                 <video playsInline id="remoteVideo" autoPlay  className='w-fit rounded-md bg-[#3e3e3e]' />
                 <p>{call.name || 'Other'}</p>
