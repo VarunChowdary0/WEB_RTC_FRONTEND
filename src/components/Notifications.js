@@ -6,15 +6,14 @@ const Notifications = () => {
      AnswerCall,
     call,
     callAccepted,
+    setCall
   }  = useContext(SocketContext)
   const [countDown , setCount] = useState(10)
   useEffect(()=>{
-    while(countDown!=0){
-      if(call.isReceivingCall){
-        setTimeout(()=>{
-          setCount(countDown-1)
-        },1000)
-      }
+    if(call.isReceivingCall){
+      setTimeout(()=>{
+        setCount(countDown-1)
+      })
     }
 },[,call])
   const CallDown = () =>{}
