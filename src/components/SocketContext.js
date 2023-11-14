@@ -18,7 +18,7 @@ const ContextProvider = ({ children }) =>{
     const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
     const [All_Onlines,setOnlines] = useState([])
-    const [OtherName,setOthername] = useState();
+    const [OtherName,setOthername] = useState("");
 
     const connectionRef = useRef();
 
@@ -45,7 +45,7 @@ const ContextProvider = ({ children }) =>{
                 setStream(currentStream);
                 setmeStream(currentStream)
                 const remoteVideo = document.getElementById('myVideoPre');
-                remoteVideo.srcObject = currentStream;
+                //remoteVideo.srcObject = currentStream;
             })
             .catch((err)=>{
                 console.log(err)
@@ -157,7 +157,7 @@ const ContextProvider = ({ children }) =>{
     // To end current call
     const EndCall = () =>{
         setCallEnded(true);
-        socket.emit("ENDCALL",(call.from))
+        socket.emit("ENDCALL",(call.from,Me))
         window.location.reload();
     }
 
@@ -178,8 +178,7 @@ const ContextProvider = ({ children }) =>{
             All_Onlines,
             setOnlines,
             setCall,
-            OtherName,
-            setOthername
+            OtherName
             
         }}>
             {children}
