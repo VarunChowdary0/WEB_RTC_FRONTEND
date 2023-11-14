@@ -81,7 +81,6 @@ const Options = ({children}) => {
                       </button>
           </>
         }
-        {console.log(Me)}
         <div onClick={Copy__} className=' fixed top-10 right-7 h-5 w-5 max-sm:mr-4'>
           <CopyToClipboard  text={Me}>
               <div>{copyMsg}</div>

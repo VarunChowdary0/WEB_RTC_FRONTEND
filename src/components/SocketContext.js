@@ -5,8 +5,8 @@ import Peer from 'simple-peer'
 
 const  SocketContext = createContext();
 
-//const URL = "http://localhost:5000/"
-const URL = "https://web-rtc-test-learn-1.onrender.com/"
+const URL = "http://localhost:5000/"
+//const URL = "https://web-rtc-test-learn-1.onrender.com/"
 const socket = io(URL)
 
 const ContextProvider = ({ children }) =>{
@@ -18,6 +18,7 @@ const ContextProvider = ({ children }) =>{
     const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
     const [All_Onlines,setOnlines] = useState([])
+    const [callerID,setCallerID] = useState(null)
     const [OtherName,setOthername] = useState("");
 
     const connectionRef = useRef();
@@ -25,7 +26,7 @@ const ContextProvider = ({ children }) =>{
     useEffect(()=>{
         socket.emit('newly_joined');
         socket.on('newly_joined',(data)=>{
-            console.log("Fghv: ",data)
+            //console.log("Fghv: ",data)
             setOnlines(data)
         })
     socket.on('disconnect',()=>{
@@ -61,6 +62,8 @@ const ContextProvider = ({ children }) =>{
             socket.on('getCalls', ({ from, name: callerName, signal }) => {
                 setCall({ isReceivingCall: true, from, name: callerName, signal });
                 setOthername(callerName);
+                setCallerID(from);
+                console.log("from",from)
                 //console.log({ isReceivingCall: true, from, name: callerName, signal })
                 OffCall();
             });
@@ -92,7 +95,8 @@ const ContextProvider = ({ children }) =>{
         peer.on('signal',(data) => {
             socket.emit('AnswerCall',{ 
                 signal: data,
-                to : call.from
+                to : call.from,
+                from : Me 
             })
         });
 
@@ -143,10 +147,11 @@ const ContextProvider = ({ children }) =>{
             }
           });
 
-        socket.on('callAccepted',(signal)=>{
-            console.log(signal)
+        socket.on('callAccepted',(data)=>{
+            console.log(data.signal)
             setCallAccepted(true);
-            peer.signal(signal);
+            peer.signal(data.signal);
+            console.log("callers :",data.from);
         });
         connectionRef.current = peer;
 
@@ -157,7 +162,13 @@ const ContextProvider = ({ children }) =>{
     // To end current call
     const EndCall = () =>{
         setCallEnded(true);
-        socket.emit("ENDCALL",(call.from,Me))
+        console.log({
+            me :Me,
+            other : callerID,
+            name : name
+        })
+        socket.emit("ENDCALL",(callerID,Me))
+
         window.location.reload();
     }
 
