@@ -17,7 +17,9 @@ const ContextProvider = ({ children }) =>{
     const [callAccepted, setCallAccepted] = useState(false);
     const [name,setname] = useState(localStorage.getItem('MyName')||"")
     const [callEnded,setCallEnded] = useState(true)
-    const [All_Onlines,setOnlines] = useState([]);
+    const [All_Onlines,setOnlines] = useState([])
+    const [OtherName,setOthername] = useState();
+
     const connectionRef = useRef();
 
     useEffect(()=>{
@@ -58,6 +60,7 @@ const ContextProvider = ({ children }) =>{
             //recive calls
             socket.on('getCalls', ({ from, name: callerName, signal }) => {
                 setCall({ isReceivingCall: true, from, name: callerName, signal });
+                setOthername(callerName);
                 //console.log({ isReceivingCall: true, from, name: callerName, signal })
                 OffCall();
             });
@@ -174,7 +177,9 @@ const ContextProvider = ({ children }) =>{
             AnswerCall,
             All_Onlines,
             setOnlines,
-            setCall
+            setCall,
+            OtherName,
+            setOthername
             
         }}>
             {children}
