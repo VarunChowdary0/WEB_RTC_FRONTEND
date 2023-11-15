@@ -20,20 +20,23 @@ const Random = () => {
     })
 
     const [load,setLoader] = useState(false)
-        const CallSomeOneRandom = () =>{
-        const Length = All_Onlines.length;
-        const ToCall = Math.floor(Math.random() * Length);
-        setLoader(true)
-        setTimeout(()=>{
-            if (All_Onlines[ToCall] !== Me){
-                OffLoad();
-                CallUser(All_Onlines[ToCall])
-                Counter();
-            }
-            else{
-                CallSomeOneRandom();
-            }
-        },500)
+
+    const CallSomeOneRandom = () =>{
+        if (countDown === 0 ){
+            const Length = All_Onlines.length;
+            const ToCall = Math.floor(Math.random() * Length);
+            setLoader(true)
+            setTimeout(()=>{
+                if (All_Onlines[ToCall] !== Me){
+                    OffLoad();
+                    CallUser(All_Onlines[ToCall])
+                    Counter();
+                }
+                else{
+                    CallSomeOneRandom();
+                }
+            },500)
+        }
     }
     const OffLoad = () =>{
         setLoader(false)
@@ -82,7 +85,7 @@ const Random = () => {
                     { (countDown !== 0) && (
                         <>
                             <div className=' flex  gap-5'>
-                                <p>Waiting for responce</p>
+                                <p>Waiting for response</p>
                             <div className={`${ countDown > 10 ? " text-green-700":
                                       countDown > 5 ? " text-orange-600" :
                                       " text-red-800"}

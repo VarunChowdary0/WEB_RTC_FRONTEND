@@ -16,16 +16,17 @@ const VideoPlayer = () => {
         {
 
             <div className={`${callAccepted ? 'opacity-1 scale-100': ' opacity-0 scale-0'} w-full h-full`}>
-             <div className=' flex h-[90vh] items-center flex-col  justify-center bg-[#272727] w-full'>
-                <video playsInline id="remoteVideo" autoPlay  className='w-fit rounded-md bg-[#3e3e3e]' />
-                <p>{OtherName || 'Other'}</p>
+             <div className=' flex h-[90vh] items-center flex-col  justify-center bg-[#272727] w-full overflow-hidden'>
+              <p>{OtherName || 'Stranger'}</p>
+                <video playsInline id="remoteVideo" autoPlay  className='h-[75vh] max-sm:h-[50vh] rounded-md bg-[#3e3e3e]' />
             </div>
-            <div className=' absolute bottom-8 right-5 
+            <div className=' absolute bottom-8 max-sm:bottom-[13vh] right-5 
                         h-[200px] w-[300px] bg-slate-600
-                        max-sm:h-[10vh] max-sm:w-[40vw] max-sm:bottom-[15vh]
-                        flex justify-center items-center rounded-md flex-col
+                        max-sm:h-[10vh] max-sm:w-[40vw] 
+                        flex justify-center items-center rounded-md flex-col 
+                         shadow-lg shadow-[#191919]
                         '>
-                    <video playsInline id='myVideo' autoPlay muted className='w-fit bg-yello-500 
+                    <video playsInline id='myVideo' autoPlay muted className='w-[300px] bg-yello-500 
                                                     rounded-md  hover:scale-105 transition-all' />
                     <p className=' text-center'>{name || 'Me'}</p>
             </div>

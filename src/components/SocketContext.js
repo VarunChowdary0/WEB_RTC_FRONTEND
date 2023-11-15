@@ -168,7 +168,7 @@ const ContextProvider = ({ children }) =>{
             name : name
         })
         socket.emit("ENDCALL",(callerID,Me))
-
+        //connectionRef.destroy();
         window.location.reload();
     }
 

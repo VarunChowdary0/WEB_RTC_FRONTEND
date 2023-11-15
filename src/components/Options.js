@@ -32,7 +32,7 @@ const Options = ({children}) => {
   },[callAccepted,callEnded])
   return (
     <div className=' flex items-center gap-10
-     max-sm:flex-col max-sm:gap-5 max-sm:mb-5 '
+     max-sm:flex-col max-sm:gap-5 max-sm:mb-5 mb-5 '
      >
         {  !callAccepted ?
           <>
