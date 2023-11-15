@@ -4,6 +4,7 @@ import { SocketContext } from './SocketContext'
 const Random = () => {
     
     const {callAccepted,stream,All_Onlines,Me,CallUser} = useContext(SocketContext);
+    const [AllExceptMe,setAllexecptMe] = useState([])
     const [ countDown , setCountDown ] = useState(0);
     const Counter = () =>{
         setCountDown(15)
@@ -18,6 +19,15 @@ const Random = () => {
             },15000)
         }
     })
+
+    useEffect(()=>{
+        let Alo = All_Onlines
+        const ind = All_Onlines.indexOf(Me);
+        if (ind != -1 ){
+            Alo.splice(ind,1);
+            setAllexecptMe(Alo)
+        }
+    },[All_Onlines])
 
     const [load,setLoader] = useState(false)
 
@@ -55,7 +65,7 @@ const Random = () => {
                         justify-center items-center pt-10 pb-10 pr-4 pl-4
                         '>
                             {
-                                All_Onlines.map((ele , index)=>{
+                                AllExceptMe.map((ele , index)=>{
                                     return(
                                         ((Me !== ele) && 
                                             <div
@@ -69,7 +79,7 @@ const Random = () => {
                                                     className 
                                                     =' p-2  bg-[#673ec8] rounded-md
                                                     hover:cursor-pointer'>
-                                                        Random Preson {index+1}
+                                                        Random Person {index+1}
                                             </div>
                                         )
                                     )
